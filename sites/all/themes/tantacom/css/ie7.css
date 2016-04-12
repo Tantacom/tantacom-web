@@ -1,0 +1,42 @@
+/* Yes, we all hate IE7 too. */
+/* Drupal admin tables. */
+/* line 6, ../sass/ie7.sass */
+#content tr.even th,
+#content tr.even td,
+#content tr.odd th,
+#content tr.odd td {
+  border-bottom: 1px solid #cccccc;
+}
+
+/* Minor fix for primary and secondary tabs in IE */
+/* line 14, ../sass/ie7.sass */
+ul .primary li a:hover,
+ul .secondary li a:hover {
+  cursor: pointer;
+  color: #555555;
+  text-decoration: none;
+}
+
+
+
+/*Tanta*/
+nav a:link,nav a:visited{line-height:1.3em;}
+.twitter a, .twitter a:hover{background: url("../images/i_twitter_new.gif") no-repeat 0 0;}
+.linkedin a, .linkedin a:hover{background: url("../images/i_linkedin_new.gif") no-repeat 0 0;}
+.rss a, .rss a:hover{background: url("../images/i_rss_new.gif") no-repeat 0 0;}
+.googleplus a, .googleplus a:hover{background: url("../images/i_googleplus_new.gif") no-repeat 0 0;}
+.slideshare a, .slideshare a:hover{background: url("../images/i_slideshare_new.gif") no-repeat 0 0;}
+
+ #home #modSus { margin:0 -2em 1.5em; padding:2em 2.4em;}
+
+
+#modSus .btn span input{ width: 1; overflow: visible;  padding:1px 15px;  }	
+
+.contacto .colB form .btn input, #home .colB form .btn input {  padding:.1em 0 .15em 0; }
+
+.quienesSomos .list li { display: inline }
+
+
+.listClientes article { zoom:1 }
+
+.btn span input{padding:0;}

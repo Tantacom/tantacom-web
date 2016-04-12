@@ -1,0 +1,18 @@
+	/***** --- generic elements --- *****/
+
+	body, h1, h2, h3, h4, h5, h6, p, img, hr, form, fieldset, legend, input, select, textarea, dl, dt, dd { margin:0; padding:0;}
+
+	q:before, q:after{ content: "";  }
+	img, fieldset { border:0;}
+
+	hr, legend { display:none; visibility:hidden;}
+
+	acronym, abbr { cursor: help	}
+	.hide {  position: absolute; top: -1500em; left: 0; width: 1px; height: 1px; overflow: hidden;	}
+
+	body { background:transparent url(../images/loading.gif) repeat 0 0; cursor:default;}
+
+.clr { clear: both;	}
+.frt { float: right	}
+.flt { float: left	}
+.sp { font-size: 1px; line-height:1px }

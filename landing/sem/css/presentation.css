@@ -1,0 +1,43 @@
+#wrapper #logo { margin-right:15px; }
+#wrapper #header { clear:both; width:875px; height:218px; margin:10px 0 29px 0; background:url(../images/bck_header.jpg) no-repeat 0 0}
+	#wrapper #header div { padding:30px 0 0 166px;}
+		#wrapper #header h1 { width:360px; padding-left:31px; background:url(../images/bck_comillas.png) no-repeat 0 4px;}
+		#wrapper #header h2 { width:360px;}
+		#wrapper #header span { display:block; width:256px; color:#5c5c5c}
+	
+	#content #formulario { position:absolute; width:291px; top:56px; right:12px; background:url(../images/bck_transparent.png) repeat-y 0 0; /*border:1px solid red*/}
+		#content #formulario #capa1 { width:273px; margin:9px auto; padding:20px 0 0 0; background:#FFF url(../images/curve_top-form.gif) no-repeat 0 0}
+			#content #formulario div #capa2 h2 { margin-bottom:25px;}
+			#content #formulario div #capa2 { width:255px; min-height:313px; padding:0 0 10px 18px; background:url(../images/curve_bottom-form.png) no-repeat 0 100%}
+			/*#content #formulario div form { padding:0 0 10px 18px; background:url(../images/curve_bottom-form.png) no-repeat 0 100%}*/
+			#content #formulario div form ul { margin:0; padding:0; list-style:none}
+				#content #formulario div form li { margin-bottom:12px}
+					#content #formulario div form ul li label { display:block; float:left; width:71px}
+					#content #formulario div form ul li input { float:left; width:166px}
+					#content #formulario div form li.special label { display:block; width:100%}
+					#content #formulario div form li textarea { width:237px;}
+			#content #formulario div #capa2 #message { width:auto; background:none; text-align:center; padding-right:18px;}
+				#content #formulario div #capa2 #message span { display:block; margin-bottom:15px; padding-top:50px;}
+				#content #formulario div #capa2 #message p { margin-bottom:20px}
+			#content #formulario div form #btn { margin:10px 0 0 54px}
+	
+	#content #problem { width:513px; margin:0 0 30px 0; }
+		#content #problem h2 { margin-bottom:15px}
+		#content #problem p { margin-bottom:18px;}
+		
+	#content #solutions div { float:left; min-height:194px; margin-right:20px; padding-left:19px;}
+		#content #solutions div h2 { /*margin-bottom:9px;*/ height:47px; padding-top:19px;}
+		
+	#content #solutions #type01 { width:241px; border-left:6px solid #018fd7;}
+		#content #solutions #type01 h2 { background:url(../images/logo_1.jpg) no-repeat 100% 0}
+	#content #solutions #type02 { width:261px; border-left:6px solid #00b1d7;}
+		#content #solutions #type02 h2 {  background:url(../images/bck_2.jpg) no-repeat 100% 0}
+	#content #solutions #type03 { width:242px; border-left:6px solid #aecb28; margin-right:0;}
+		#content #solutions #type03 h2 {  background:url(../images/bck_3.jpg) no-repeat 100% 0}
+		#content #solutions div ul { margin:0; padding:0; list-style:none}
+			#content #solutions div ul li { padding-left:16px; background:url(../images/bullet_list.gif) no-repeat 0 5px}
+	
+	#footer { margin-top:28px;}
+		#footer div { border-top:1px solid #e4e4e4; margin-top:17px; padding-top:18px;}
+			#footer div .copy { float:left}
+			#footer div .legal { float:right}

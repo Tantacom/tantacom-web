@@ -1,0 +1,9 @@
+#wrapper #header h1, #content #formulario, #content #formulario div #capa2, #content #formulario div form #btn { behavior: url("htc/iepngfix.htc") }
+
+#content, #content #solutions, #content #formulario div form li, #footer div { height:1%}
+#content #solutions div { height:194px;}
+
+#content #formulario {padding-top:9px;} 
+	#content #formulario div #capa2 { height:313px}
+
+#content ul#blog li, #content ul#libro li ul li div p, #content h3, #content .action, #content ul.list li {zoom:1}

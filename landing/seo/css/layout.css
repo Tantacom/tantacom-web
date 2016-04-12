@@ -1,0 +1,10 @@
+#wrapper {
+	position:relative;
+	width:875px;
+	margin:12px auto;/* border:1px solid blue*/
+	font-size: 14px;
+}
+ #content { /*border:1px solid red;*/ padding-left:13px;}
+
+		
+ #content:after, #content #solutions:after, #footer div:after, #content #formulario div form li:after { clear:both; display:block; height:0; visibility:hidden; content:"." }

@@ -1,0 +1,1025 @@
+<?php
+// $Id: tanta.module,v 1.0 2011/05/18 15:58:00 goba Exp $
+
+@require_once(drupal_get_path('module', 'campaignmonitor') .'/lib/CMBase.php');
+
+//Modificando el theme
+function tanta_theme ( ) {
+    return array_merge ( drupal_common_theme ( ), array ('tanta_powered_by'=>  array ('arguments'=>  array ( 'image_path'=>NULL ),						 )                                                         ,'search_block_form'=> array('arguments'=>array('form'=>NULL ),
+														  'template-file'=>'search-block-form',),
+													));
+} //arguments es el nombre que recibe plantilla
+
+//añadiendo al menú
+function tanta_menu( ){
+	 $items = array();                  
+	 $items['blog'] = array(
+    'page callback' => 'blog_view',
+    'access callback' => 'user_access',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+ );
+	
+	$items['registronews'] = array(
+    'page callback' => 'tanta_newsletter',
+    'access callback' => 'user_access',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+ );	
+	
+	
+return $items;	
+}
+
+
+/**
+ * Callback ajax para el registro en el newsletter.
+ *
+ *
+ */
+
+function tanta_newsletter()
+{
+		$mail = $_POST['mail'];
+		$api_key =   variable_get ( 'campaignmonitor_api_key', '' ) ;
+        $list_id =   variable_get ( 'campaignmonitor_list_id', '' ) ;
+		$cm =   new CampaignMonitor ( $api_key )        ;
+		$result =   $cm->subscribersGetIsSubscribed ( $mail, $list_id )  ;
+		$name='Suscripcion desde web';
+		if ($result["anyType"]=="False")
+		{
+			_campaignmonitor_add_subscriber ( $api_key, $list_id, $name, $mail,TRUE) ;
+			unset($_SESSION['messages']["status"]);
+			echo("ok");
+		}
+		if ($result["anyType"]=="True")
+		{
+			echo("no");
+		}
+}
+
+/**
+ * Callback for menu 'elblog'.
+ *
+ * Renderiza todos los elementos de la sección "elblog".
+ *
+ */
+function blog_view() {
+	drupal_set_title('Blog de Tanta, actualidad digital');
+
+	$viewName1 = 'Blogs';
+	$display_id1 ='block_1';
+	$izquierda= views_embed_view($viewName1,$display_id1);
+ 
+	$viewName = 'tweets';
+	$display_id = 'block';
+	$myArgs = array(1);
+	$derecha= views_embed_view($viewName, $display_id, $myArgs);
+	
+	$content='<div class="clearFix">';
+	$content.= '<article class="blogs">'.$izquierda.'</article>';
+	$content.= '<div class="lateral">'.$derecha.'</div>';
+	$content.= '</div>';
+
+	
+
+  return $content;
+}
+
+//menú primario
+function tanta_m_principal ( ) {
+	$links = menu_primary_links ( ) ;
+    $valor = TRUE ;
+				$node = menu_get_object();
+				$path = explode('/', $node->path);
+				$cadena=$path[0];
+				$cadena = str_replace("_"  , "-" , $cadena );
+		        
+    while ( $valor == TRUE ) {
+           $link = each ( $links ) ;
+           if ( ! $link ) { $valor = FALSE; }
+           else {
+                $result     =   db_query ( "SELECT nid FROM {node} WHERE title = '$node->type'" ) ;
+                $nid2       =   db_result ( $result ) ;
+                $superior   =   node_load ( $nid2 ) ;
+				
+				
+				$alias=drupal_get_path_alias($link['value']['href']);
+				if( ($alias != '') && ( $cadena !='')){
+					$valor2= strpos( $alias , $cadena );
+					
+		   			}
+					if($valor2 === NULL){ $valor2=FALSE;}
+				$li .= '<li><a ' ;
+                if(
+				strpos($link['key'],' active-trail')!== FALSE || 
+				$node->type == drupal_get_path_alias ( $link[ 'value' ][ 'href' ] )  ||  
+				$superior->type == drupal_get_path_alias ( $link[ 'value' ][ 'href' ] ) ||
+				$valor2 !== FALSE 
+				
+				 ){
+                    $li .= 'class="sel" ' ;
+				}
+                $li .= 'href="/'.drupal_get_path_alias($link['value']['href']).'"> '.$link['value']['title'].'</a></li>' ;
+			}
+	}
+    return $li ;
+}
+
+//menú secundario
+function tanta_m_secundario ( ) {
+	$links = menu_secondary_links ( ) ;
+    $valor = TRUE ;
+    global $base_url, $base_path ;
+
+    while ( $valor == TRUE ) :
+            $link = each ( $links ) ;
+            if ( ! $link ) : $valor = FALSE ;
+            else :
+                $li .= '<li><a ' ;
+                $result     =   db_query ( "SELECT nid FROM {node} WHERE title = '$node->type'" ) ;
+                $nid2       =   db_result ( $result ) ;
+                $superior   =   node_load ( $nid2 ) ;
+                if  ( strpos ( $link[ 'key' ], ' active-trail' ) !== FALSE || $node->type == drupal_get_path_alias ( $link[ 'value' ][ 'href' ] )  ||  $superior->type == drupal_get_path_alias ( $link[ 'value' ][ 'href' ] ) ) :
+                    $li .= 'class="sel" ' ;
+                endif ;
+                $li .= 'href="' . $base_url . $base_path . drupal_get_path_alias ( $link[ 'value' ][ 'href' ] ) . '"> ' . $link[ 'value' ][ 'title' ] . '</a></li>' ;
+            endif ;
+    endwhile ;
+    return $li ;
+}
+
+//links sociales
+function tanta_m_ssocial ( ) {
+	return '<div class="lang_social">
+						<!--<a href="#" class="lang" lang="en">EN</a>-->
+						<ul class="social">
+							<li class="tlf">+34 91 440 10 40</li>
+							<li><span>Síguenos:</span></li>
+							<li class="twitter">' .
+								l ( 'twitter' , variable_get ( 'site_twitter', '' ), array( 'attributes' => array( 'target' => '_blank' ) ) )
+							. '</li>
+							<li class="linkedin">' .
+								l ( 'linkedin' , variable_get ( 'site_linkedin', '' ), array( 'attributes' => array( 'target' => '_blank' ) ) )
+							. '</li>
+							<li class="rss">' . 
+								l ( 'rss' , variable_get ( 'site_rss', '' ), array( 'attributes' => array( 'target' => '_blank' ) ) )
+							. '</li>
+							<li class="googleplus"><a target="_blank" href="https://plus.google.com/109652246922447542410/posts">Google+</a></li>
+							<li class="slideshare"><a target="_blank" href="http://es.slideshare.net/tantacom">slideshare</a></li>
+							<!--<li class="mail"><a class="mailto" href="mailto:tanta@tantacom.com">tanta@tantacom.com</a></li>-->
+						</ul>
+					</div>' ;
+}
+
+//links de internet explorer
+function tanta_m_ie ( ) {
+	return '<!--[if lte IE 6]><link rel="stylesheet" href="/' . path_to_theme() .  '/css/ie6.css" /><![endif]-->
+    <!--[if IE 7]><link rel="stylesheet" href="/' . path_to_theme() .  '/css/ie7.css" /><![endif]-->
+    <!--[if IE 8]><link rel="stylesheet" href="/' . path_to_theme() .  '/css/ie8.css" /><![endif]-->' ;
+}
+
+//links lateral con datos de tanta
+/*function tanta_m_lateral ( ) {
+	return '<li>
+							<ul>
+								<li class="map">
+									<span>' . variable_get ( 'site_abreVia', '' ) . ' ' .variable_get ( 'site_direccion', '' ) . ',  ' . variable_get ( 'site_numero', '' ) . ',
+									<br /> ' . variable_get ( 'site_planta', '' ) .' ª planta, oficina ' . variable_get ( 'site_puerta', '' ) .',
+									<br />' . variable_get ( 'site_cp', '' ) . ', ' . variable_get ( 'site_provincia', '' ) . ', ' . variable_get ( 'site_pais', '' ) . '.</span>
+								</li>
+								<li class="tlf">
+									<span>' . variable_get ( 'site_cod_pais', '' ) . ' ' . variable_get ( 'site_telefono', '' ) . '</span>
+								</li>
+								<li class="mail">' .
+									l ( variable_get ( 'site_mail', '' ) , 'mailto:'. variable_get ( 'site_mail', '' ) ) .
+								'</li>
+							</ul>
+						</li>
+						<li>
+							<span>Pertenecemos al Grupo Onetec:</span>
+							<ul>
+								<li>' . l ( variable_get ( 'site_grupo', '' ) , 'http://'. variable_get ( 'site_grupo', '' ) ) . '</li>
+								<li>' . l ( variable_get ( 'site_web_onetec', '' ) , 'http://'. variable_get ( 'site_web_onetec', '' ) ) . '</li>
+							</ul>
+						</li>' ;
+}
+
+*/
+
+//mándanos tu currrículo
+function tanta_mandanos ( ) {
+	$attributes = array ( 'attributes' => array ( 'class' => 'btn btn_lArrow btnType02' ) , 'html' => TRUE ) ;
+	$cadena='<p>Contamos con un equipo joven y veterano al mismo tiempo, especialista en cada una de las áreas de las que se compone tu proyecto,  mentes estratégicas, técnicas, creativas, con la multidisciplinaridad como diferencia.</p>';
+return $cadena.'<!--<p class="link"><a class="ftr btn btn_lArrow btnType02" href="/contacto">Mándanos tu CV_</a></p>-->';
+}
+
+
+//Solicitanos información con botón azul
+function tanta_solicita2 ( ) {
+	$attributes = array ( 'attributes' => array ( 'class' => 'btn btn_lArrow btnType02' ) , 'html' => TRUE ) ;
+	return '<p>¿Tienes dudas? ¿Quieres saber más acerca de nuestros proyectos?</p>' . l ( 'Solicítanos información', '/contacto', $attributes ) . '</p>' ;
+}
+
+
+
+function tanta_preprocess_page( &$vars, $hook ) {
+    $vars[ 'm_principal' ] = tanta_m_principal ( ) ;    
+    $vars[ 'm_secundario' ] = tanta_m_secundario ( ) ;    
+    $vars[ 'ie' ] = tanta_m_ie ( ) ;    
+    $vars[ 'social' ] = tanta_m_ssocial ( ) ;										
+	//$vars[ 'lateral' ] = tanta_m_lateral ( ) ;					
+		
+}
+
+
+function tanta_preprocess_node( &$vars, $hook ) {
+
+    global $base_url , $base_path , $theme_path ;
+    
+    $vars['mandanos' ] = tanta_mandanos ( ) ;
+    $vars['solicita2' ] = tanta_solicita2 ( ) ;
+	//print_r ( $vars ) ;
+		
+}	
+
+function tanta_parser($content,$breadcrumb,$nid)
+{
+
+		$excluidos = array(142,143); //nodos en los que no se aplica el breadcrumb newsletter-ok, newsletter-error
+
+		// Create a DOM object
+        $html_obj = new simple_html_dom();
+
+        // Load HTML from a string
+        $html_obj->load($content);
+		
+		foreach ($html_obj->find('h1') as $plain_text_obj ) 
+		{
+			$cab[0] = "<h1>".$plain_text_obj->innertext."</h1>";
+		}
+		
+		foreach ($html_obj->find('h2') as $plain_text_obj ) 
+		{
+			$cab[1] = "<h2>".$plain_text_obj->innertext."</h2>";
+		}
+
+		if (!(in_array($nid, $excluidos))) 
+		{
+		
+		$final = $cab[0] . $breadcrumb . $cab[1];
+		}
+		else
+		{
+			$final = $cab[0] . $cab[1];
+		}
+	
+	return $final;
+}
+
+function campaign_form_validate ( $form, &$form_state ) {
+    $nombre=$form_state["values"]["name"];
+    $email=$form_state["values"]["email"];
+	$mail_correcto = 0;
+    if ((strlen($email) >= 6) && (substr_count($email,"@") == 1) && (substr($email,0,1) != "@") && (substr($email,strlen($email)-1,1) != "@")){
+       if ((!strstr($email,"'")) && (!strstr($email,"\"")) && (!strstr($email,"\\")) && (!strstr($email,"\$")) && (!strstr($email," "))) {
+          if (substr_count($email,".")>= 1){
+             $term_dom = substr(strrchr ($email, '.'),1);
+             if (strlen($term_dom)>1 && strlen($term_dom)<5 && (!strstr($term_dom,"@")) ){
+                $antes_dom = substr($email,0,strlen($email) - strlen($term_dom) - 1);
+                $caracter_ult = substr($antes_dom,strlen($antes_dom)-1,1);
+                if ($caracter_ult != "@" && $caracter_ult != "."){
+                   $mail_correcto = 1;
+                }
+             }
+          }
+       }
+    }
+    if (!$mail_correcto)
+	      form_set_error('error', "Debes introducir una dirección de correo válida." ) ;
+	if ( strcmp($nombre, "Tu nombre")>0 )
+ 		 form_set_error ( 'error', "El campo nombre es obligatorio1." ) ;
+ 		
+	
+}
+
+
+
+/////Modificando formularios
+function tanta_form_alter( &$form, $form_state, $form_id){
+
+	
+
+    $tamano =30;
+    global $user;
+//print 'form_id*********'.$form_id;
+//print_r ( $form_state )                                           ;
+   switch ( $form_id ) {
+   
+   case 'system_site_information_settings':
+   $form["site_name"]["#title"]="Titulo";
+   $form["site_mission"]["#title"]="Descripción";
+   break;
+   
+   
+ case 'webform_client_form_94' :
+	
+	//  $form['submitted']
+			$form['#id']="formContacto";
+			$form['actions']['submit']['#prefix']= '<div class="btn"><div>';
+            $form['actions']['submit']['#suffix']='</div></div>';
+			$form['que_necesitas']['#id']="edit-submitted-que-necesitas";
+			
+			$form['acepto']['#type']='checkbox';
+			$form['acepto']['#name']='acepto';
+			$form['acepto']['#id']='acepto';
+			
+			$form['acepto']['#prefix']= '<div class="chk"><label for="edit-unsubscribe-newsletter" class="option">';
+			$form['acepto']['#suffix']= 'Acepto las <a target="_blank" href="/aviso-legal">condiciones legales</a></label></div>';
+			
+			
+			
+			
+	break;
+   case 'campaignmonitor_general_form' :
+		//var_dump($form);
+		
+			
+   			
+            
+			$form['email']['#prefix']= '<label for="tuemail">';
+			$form['email']['#suffix']= '</label>';
+			$form['email']["#title"]='';
+			$form['email']["#required"]=false;
+			$form['email']['#attributes']['placeholder']=t('Tu email');
+			$form['email']['#id']='tuemail';
+			$form['email']['#weight']=-15;
+			
+			
+			$form['acepto']['#type']='checkbox';
+			$form['acepto']['#name']='acepto';
+			$form['acepto']['#id']='acepto';
+			$form['acepto']['#weight']=-14;
+			
+			$form['acepto']['#prefix']= '<div class="chk"><label for="edit-unsubscribe-newsletter" class="option">';
+			$form['acepto']['#suffix']= 'Acepto las <a target="_blank" href="/aviso-legal">condiciones legales</a></label></div>';
+			
+			$form['submit']['#value']= t('Suscribirme');
+            $form['submit']['#prefix']= '<div class="submit"><span class="btn btn_lArrow btnType03"><span>';
+            $form['submit']['#suffix']='</span></span></div>';
+			$form['submit']['#weight']=-12;
+			
+			//$form["#action"]='#campaignmonitor-general-form';
+			$form['#validate'] = array ( 'campaign_form_validate' ) ;
+        break;
+
+
+
+
+
+
+        case 'system_site_information_settings' :
+            //Añadiendo campos a info del sitio
+
+            $form[ 'site_empresa' ]     =   array (
+                                                '#type'             => 'textfield'                          ,
+                                                '#title'            => t ( 'Nombre de Empresa' )            ,
+                                                '#size'             => $tamano                              ,
+                                                '#maxlength'        => 128                                  ,
+                                                '#required'         => FALSE,
+                                                '#default_value'    => variable_get ( 'site_empresa', '' )  ,
+                                            )   ;
+
+            $form[ 'site_cif' ]         =   array (
+                                                '#type'             =>  'textfield'                         ,
+                                                '#title'            =>  t ( 'CIF' )                         ,
+                                                '#size'             =>  $tamano                             ,
+                                                '#maxlength'        =>  128                                 ,
+                                                '#required'         =>  FALSE                               ,
+                                                '#default_value'    =>  variable_get ( 'site_cif', '' )     ,
+                                            )   ;
+
+            $form[ 'site_registro' ]    =   array (
+                                                '#type'             =>  'textfield'                         ,
+                                                '#title'            =>  t ( 'Registro Mercantil' )          ,
+                                                '#size'             =>  $tamano                             ,
+                                                '#maxlength'        =>  200                                 ,
+                                                '#required'         =>  FALSE                               ,
+                                                '#default_value'    =>  variable_get ( 'site_registro', '' ),
+                                            ) ;
+
+            $form[ 'site_telefono' ]    =   array (
+                                                '#type'             =>  'textfield'                         ,
+                                                '#title'            =>  t ( 'Phone' )                       ,
+                                                '#size'             =>  $tamano                             ,
+                                                '#maxlength'        =>  128                                 ,
+                                                '#required'         =>  FALSE                               ,
+                                                '#default_value'    =>  variable_get ( 'site_telefono', '' ),
+                                            )       ;
+
+            $form[ 'site_cod_pais' ]    =   array (
+                                                '#type'             =>  'textfield'                         ,
+                                                '#title'            =>  t ( 'Prefijo país' )                ,
+                                                '#size'             =>  $tamano                             ,
+                                                '#maxlength'        =>  5                                   ,
+                                                '#required'         =>  FALSE                               ,
+                                                '#default_value'    =>  variable_get ( 'site_cod_pais', '' ),
+                                                )   ;
+
+            $form[ 'site_web' ]         =   array (
+                                                '#type'             => 'textfield'                          ,
+                                                '#title'            => t ( 'Web' )                          ,
+                                                '#size'             => $tamano                              ,
+                                                '#maxlength'        => 128                                  ,
+                                                '#required'         => FALSE                                ,
+                                                '#default_value'    => variable_get ( 'site_web', '' )      ,
+                                            ) ;
+
+            $form[ 'site_tipoVia' ]     =   array (
+                                                '#type'             => 'textfield'                          ,
+                                                '#title'            => t( 'Tipo de Vía' )                   ,
+                                                '#description'      => t( 'Calle, Avenida, etc.' )  ,
+                                                '#size'             => $tamano                              ,
+                                                '#maxlength'        => 60                                   ,
+                                                '#required'         => FALSE                                ,
+                                                '#default_value'    => variable_get( 'site_tipoVia', '' )   ,
+                                            )   ;
+
+            $form[ 'site_abreVia' ]     =   array (
+                                    '#type'             => 'textfield'                          ,
+                                    '#title'            => t( 'Abreviatura de Vía' )            ,
+                                    '#description'      => t( 'C/, Av., etc.' )                 ,
+                                    '#size'             => $tamano                              ,
+                                    '#maxlength'        => 60                                   ,
+                                    '#required'         => FALSE                                ,
+                                    '#default_value'    => variable_get( 'site_abreVia', '' )   ,
+                                )               ;
+
+            $form[ 'site_direccion' ]   =   array (
+                                                '#type'             => 'textfield'                          ,
+                                                '#title'            => t( 'Address' )                       ,
+                                                '#size'             => $tamano                              ,
+                                                '#maxlength'        => 128                                  ,
+                                                '#required'         => FALSE                                ,
+                                                '#default_value'    => variable_get( 'site_direccion', '' ) ,
+                                            ) ;
+
+            $form[ 'site_numero' ]      =   array (
+                                                '#type'             =>  'textfield'                         ,
+                                                '#title'            =>  t ( 'Number' )                      ,
+                                                '#size'             =>  $tamano                             ,
+                                                '#maxlength'        =>  5                                   ,
+                                                '#required'         =>  FALSE                               ,
+                                                '#default_value'    =>  variable_get ( 'site_numero', '' )  ,
+                                            )   ;
+
+            $form[ 'site_planta' ] =    array (
+                                                '#type'             =>  'textfield'                         ,
+                                                '#title'            =>  t ( 'Planta' )                      ,
+                                                '#size'             =>  $tamano                             ,
+                                                '#maxlength'        =>  128                                 ,
+                                                '#required'         =>  FALSE                               ,
+                                                '#default_value'    =>  variable_get ( 'site_planta', '' )  ,
+                                            )   ;
+
+
+            $form[ 'site_puerta' ] =    array (
+                                            '#type'             =>  'textfield'                         ,
+                                            '#title'            =>  t ( 'Puerta' )                      ,
+                                            '#size'             =>  $tamano                             ,
+                                            '#maxlength'        =>  128                                 ,
+                                            '#required'         =>  FALSE                               ,
+                                            '#default_value'    =>  variable_get ( 'site_puerta', '' )  ,
+                                        )   ;
+
+            $form[ 'site_cp' ]          =   array (
+                                                '#type'             =>  'textfield'                         ,
+                                                '#title'            =>  t ( 'Postal Code' )                 ,
+                                                '#size'             =>  $tamano                             ,
+                                                '#maxlength'        =>  5                                   ,
+                                                '#required'         =>  FALSE                               ,
+                                                '#default_value'    =>  variable_get ( 'site_cp', '' )      ,
+                                            )   ;
+
+            $form[ 'site_provincia' ]   =   array (
+                                                '#type'             =>  'textfield'                         ,
+                                                '#title'            =>  t ( 'Province' )                    ,
+                                                '#size'             =>  $tamano                             ,
+                                                '#maxlength'        =>  128                                 ,
+                                                '#required'         =>  FALSE                               ,
+                                                '#default_value'    =>  variable_get ( 'site_provincia', '' ),
+                                            )       ;
+
+            $form[ 'site_pais' ]        =   array (
+                                                '#type'             =>  'textfield'                         ,
+                                                '#title'            =>  t ( 'Country' )                     ,
+                                                '#size'             =>  $tamano                             ,
+                                                '#maxlength'        =>  128                                 ,
+                                                '#required'         =>  FALSE                               ,
+                                                '#default_value'    =>  variable_get ( 'site_pais', '' )    ,
+                                            )   ;
+
+            $form[ 'site_grupo' ]       =   array (
+                                                '#type'             =>  'textfield'                         ,
+                                                '#title'            =>  t ( 'Web group' )                   ,
+                                                '#size'             =>  $tamano                             ,
+                                                '#maxlength'        =>  128                                 ,
+                                                '#required'         =>  FALSE                               ,
+                                                '#default_value'    =>  variable_get ( 'site_grupo', '' )   ,
+                                            )   ;
+
+            $form[ 'site_web_onetec' ]  =   array (
+                                                '#type'             =>  'textfield'                         ,
+                                                '#title'            =>  t ( 'Onetec' )                      ,
+                                                '#size'             =>  $tamano                             ,
+                                                '#maxlength'        =>  128                                 ,
+                                                '#required'         =>  FALSE                               ,
+                                                '#default_value'    =>  variable_get ( 'site_web_onetec', '' ),
+                                            )   ;
+
+            $form[ 'site_fax' ]         =   array (
+                                                '#type'             =>  'textfield'                         ,
+                                                '#title'            =>  t ( 'Fax' )                         ,
+                                                '#size'             =>  $tamano                             ,
+                                                '#maxlength'        =>  128                                 ,
+                                                '#required'         =>  FALSE                               ,
+                                                '#default_value'    =>  variable_get ( 'site_fax', '' )     ,
+                                            )       ;
+
+            $form[ 'site_email' ]       =   array (
+                                                '#type'             =>  'textfield'                         ,
+                                                '#title'            =>  t ( 'Contact email' )               ,
+                                                '#size'             =>  $tamano                             ,
+                                                '#maxlength'        =>  128                                 ,
+                                                '#required'         =>  FALSE                               ,
+                                                '#default_value'    =>  variable_get ( 'site_email', '' )   ,
+                                            )       ;
+
+            $form[ 'site_blog' ]        =   array (
+                                                '#type'             =>  'textfield'                         ,
+                                                '#title'            =>  t ( 'Blog' )                        ,
+                                                '#size'             =>  $tamano                             ,
+                                                '#maxlength'        =>  128                                 ,
+                                                '#required'         =>  FALSE                               ,
+                                                '#default_value'    =>  variable_get ( 'site_blog', '' )    ,
+                                            )   ;
+
+            $form[ 'site_twitter' ]     =   array (
+                                                '#type'             =>  'textfield'                         ,
+                                                '#title'            =>  t ( 'Twitter' )                     ,
+                                                '#size'             =>  $tamano                             ,
+                                                '#maxlength'        =>  128                                 ,
+                                                '#required'         =>  FALSE                               ,
+                                                '#default_value'    =>  variable_get ( 'site_twitter', '' ) ,
+                                        )       ;
+
+            $form[ 'site_linkedin' ]    =   array (
+                                                '#type'             =>  'textfield'                         ,
+                                                '#title'            =>  t ( 'Linkedin' )                    ,
+                                                '#size'             =>  $tamano                             ,
+                                                '#maxlength'        =>  128                                 ,
+                                                '#required'         =>  FALSE                               ,
+                                                '#default_value'    =>  variable_get ( 'site_linkedin', '' ),
+                                            )       ;
+
+            $form[ 'site_rss' ]         =   array (
+                                                '#type'             => 'textfield'                          ,
+                                                '#title'            => t ( 'Rss' )                          ,
+                                                '#size'             => $tamano                              ,
+                                                '#maxlength'        => 128                                  ,
+                                                '#required'         => FALSE                                ,
+                                                '#default_value'    => variable_get ( 'site_rss', '' )      ,
+                                            )       ;
+
+            // Ordenando los campos, añadiendo un peso #weight
+            $order  =   array (
+                            'site_name', 'site_empresa', 'site_cif', 'site_registro',  'site_frontpage', 'site_mail', 'anonymous', 'site_footer', 'site_mission', 'site_slogan', 'site_web', 'site_tipoVia', 'site_abreVia', 'site_direccion', 'site_numero', 'site_planta','site_puerta', 'site_cp', 'site_provincia', 'site_pais', 'site_grupo', 'site_web_onetec', 'site_cod_pais', 'site_telefono', 'site_fax', 'site_email', 'site_blog', 'site_twitter', 'site_linkedin', 'site_rss', 'submit'
+                        )       ;
+
+            foreach ( $order    as  $key        =>  $value ) {
+                $form[ $value ][ '#weight' ]    =   $key    ;
+            }//endforeach
+        break                                                                                                                           ;
+
+    }//switch
+}
+
+
+//Formulario de baja newsletter
+function baja_formulario ( ) {
+	$form =   array ( );
+    $block_options[ 'name_hide' ] = TRUE;
+	$block_options[ 'name_required' ] = FALSE;
+	$form[ 'name' ] =   array ('#required'=> FALSE);
+	$form[ 'email' ] = array (
+                              '#type' =>  'textfield',
+                              '#title' =>  '',
+                              '#size' =>  20 ,
+                              '#maxlength' =>  100,
+                              '#required' =>  False,
+                              '#default_value'=>  $email,
+                              );
+							  
+	$form['email']['#prefix'] ='<label for="tuemail"><span>Email con el que estas registrado</span>';
+	$form['email']['#suffix'] ='</label>';
+	$form['email']['#attributes']['placeholder']=t('Tu email');
+	$form['email']['#id']='tuemailbaja';
+	
+	$form[ 'unsubscribe_newsletter' ]  =   array (
+                                                '#type'  =>  'hidden',
+                                                '#title' =>  t ( 'Unsubscribe' ),
+                                                '#default_value' =>  TRUE,
+                                            );
+	$form[ 'action' ] = array (
+                               '#type' =>  'value',
+                               '#value' =>  'unsubscribe'
+                               );
+
+    $form[ 'submit' ] = array (
+                               '#type' =>  'submit',
+                               '#value' =>  t ( 'Cancelar suscripción' )
+                               );
+							   
+	$form['submit']['#prefix'] ='<div class="submit"><span class="btn btn_lArrow btnType03"><span>';
+	$form['submit']['#suffix'] ='</span></span></div>';
+	
+    $form[ 'display_mail' ] = NULL;
+	$form[ '#tid' ] = $tid;
+	$form[ '#submit' ][ ] =   'tanta_newsletter_block_form_submit';
+    $form[ '#theme' ] =   'tanta_para_baja';
+   return $form;
+}
+
+
+// Formulario de modificación newsletter
+function modificacion_formulario ( ) {
+    $form = array ( );
+    $form[ 'email' ] = array (
+                              '#type' =>  'textfield',
+                              '#title' =>  '',
+                              '#size' =>  20,
+                              '#maxlength' =>  128,
+                              '#required' =>  FALSE,
+                                            );
+	$form['email']['#prefix'] ='<label for="tuemail"><span>Email con el que estas registrado</span>';
+	$form['email']['#suffix'] ='</label>';
+	$form['email']['#attributes']['placeholder']=t('Tu email');
+	$form['email']['#id']='tuemail';
+	
+	$form[ 'nuevo' ] =   array (
+                                '#type' =>  'textfield',
+                                '#title' =>  '',
+                                '#size' =>  20,
+                                '#maxlength' =>  128,
+                                '#required' =>  FALSE,
+								) ;
+		
+    $form['nuevo']['#prefix'] ='<label for="nuevoemail"><span>Nuevo email</span>';
+	$form['nuevo']['#suffix'] ='</label>';
+	$form['nuevo']['#attributes']['placeholder']=t('Tu email');
+	$form['nuevo']['#id']='nuevoemail';
+	
+	
+	$form[ 'submit' ] =   array (
+                                '#type' =>  'submit',
+                                '#value' =>  t ( 'Modify' ),
+                                ) ;
+	
+	$form['submit']['#prefix'] ='<div class="submit"><span class="btn btn_lArrow btnType03"><span>';
+	$form['submit']['#suffix'] ='</span></span></div>';
+	
+								
+    $form[ 'action' ] =   array (
+                                '#type' =>  'value',
+                                '#value' =>  'modificar'
+                                );
+
+    $form[ 'display_mail' ] =   NULL    ;
+
+    $form[ '#tid' ] =   $tid ;
+
+    $form[ '#submit' ][ ] =   'tanta_newsletter_block_form_submit' ;
+
+    $form[ '#theme' ] =   'tanta_para_modificacion' ;
+	
+
+  return $form      ;
+
+}
+
+
+
+//Render formularios de newsletter, baja y modificación
+function render_formularios($tipo) {
+    
+	if ($tipo=="mod") $output =   drupal_get_form ( 'modificacion_formulario' );
+    if ($tipo=="baja") $output =  drupal_get_form ( 'baja_formulario');
+	return $output;
+}
+
+
+
+//Verificando si el email insertado es/son válido/s, newsletter
+function tanta_newsletter_block_form_validate ( $form, &$form_state ) {
+
+    $valor = TRUE ;
+
+    if ( ! valid_email_address ( $form_state[ 'values' ][ 'email' ] ) ) {
+        form_set_error ( 'mail', t ( "The email address you supplied is not valid." ) )     ;
+        $valor                          =   FALSE               ;
+    }
+    if( $form_state[ 'clicked_button' ][ '#post' ][ 'nuevo' ] ) {
+        if ( !valid_email_address ( $form_state[ 'clicked_button' ][ '#post' ][ 'nuevo' ] ) ) {
+            form_set_error ( 'mail', t ( "The new email address you supplied is not valid." ) )                                         ;
+            $valor                      =   FALSE                                           ;
+        }
+    }
+    return $valor                                       ;
+}
+
+
+
+
+
+function tanta_newsletter_block_form_submit ( $form, &$form_state ) 
+{
+  global $user ;
+    if ( tanta_newsletter_block_form_validate ( $form, &$form_state ) ) 
+	{
+        $confirm = TRUE;
+        $form_state['redirect'] = 'nuestra-newsletter' ;
+
+		switch ( $form_state[ 'values' ][ 'action' ] ) 
+		{
+
+			case 'unsubscribe' :
+				campaignmonitor_general_form_submit ( $form, &$form_state ) ;
+			break   ;
+
+			case 'modificar' :
+				if ( tanta_newsletter_modificacion_user ( $form_state[ 'values' ][ 'email' ], $form_state[ 'values' ][ 'nuevo' ], $confirm ) ) {
+						drupal_set_message ( t ( 'Change your email' ) )                ;
+				}
+			break;
+			default :
+				//print 'toy aki';
+		}
+ }
+}
+
+//Modificado el email de newsletter
+function tanta_newsletter_modificacion_user ( $mail, $nuevo, $confirm = TRUE ) {
+  $mail =   strtolower ( $mail ) ;
+    $nuevo =   strtolower ( $nuevo ) ;
+	
+	
+    if ( $mail !=  $nuevo ) {
+
+        $api_key =   variable_get ( 'campaignmonitor_api_key', '' ) ;
+        $list_id =   variable_get ( 'campaignmonitor_list_id', '' ) ;
+
+        if ( $api_key != '' && $list_id != '' ) {
+            $cm =   new CampaignMonitor ( $api_key )        ;
+            $result =   $cm->subscribersGetIsSubscribed ( $mail, $list_id )  ;
+            $result2 =   $cm->subscribersGetIsSubscribed ( $nuevo, $list_id )    ;
+            $pase = FALSE;
+			
+			
+            switch ( $result[ 'anyType' ] ) {
+
+                case 'True' :
+                    if ( $result2[ 'anyType' ] == 'True' ) {
+                        form_set_error ( 'email' , ( t ( 'This email ' ) . $nuevo . t ( 'is already active' ) ) )           ;
+                        return FALSE;
+                    }
+					_campaignmonitor_remove_subscriber ( $api_key, $list_id, $mail );
+					_campaignmonitor_add_subscriber ( $api_key, $list_id, $name, $nuevo,TRUE,1) ;
+					return TRUE;
+                break;
+
+                default :
+                    form_set_error ( 'mail' , ( t ( ' El email ' ) . $nuevo ." ". t ( 'is not already active' ) ) )    ;
+                    return FALSE    ;
+                break   ;
+            }//switch
+        }//if != ''
+
+    }//if
+
+
+}
+
+
+
+
+
+//Modificando el envío del email, al cambiar el formulario contact_mail_page debemos cambiar el envío
+function tanta_mail_alter ( &$message ) {
+    if ( $message[ 'id' ]                       ==  'contact_page_mail' ) {
+            $message[ 'body' ][ 1 ]             =   t ( 'Message: '  )  .   $message[ 'body' ][ 1 ]                                     ;
+            $message[ 'body' ][ 2 ]             =   t ( 'Company: '  )  .   $message[ 'params' ][ 'empresa' ]                           ;
+            $message[ 'body' ][ 3 ]             =   t ( 'Web site: ' )  .   $message[ 'params' ][ 'sitio' ]                             ;
+            $message[ 'body' ][ 4 ]             =   t ( 'Phone: '    )  .   $message[ 'params' ][ 'telefono' ]                          ;
+        }
+}
+
+
+////////Permisos
+function tanta_perm( ) {
+  //return array ( 'Nuestra newsletter', 'Tanta busqueda' ) ;
+  return array ( 'Tanta busqueda' ) ;
+}
+
+
+//Modificando el * de requerido
+function tantacom_form_element ( $element, $value ) {
+    $t                          =   get_t ( )       ;
+
+    $output                     =   '<div class="form-item"'    ;
+    if ( ! empty ( $element[ '#id' ] ) )  {
+        $output                 .=  ' id="' . $element[ '#id' ] . '-wrapper"'   ;
+    }
+    $output                     .=  ">\n"   ;
+
+    //Aquí cambio
+        //print_r ( $element[ '#id' ] ) ;
+
+    $required                   =   !empty ( $element[ '#required' ] ) ? ' (*) ' : ''   ;
+
+    if ( !empty ( $element[ '#title' ] ) ) {
+        $title                  =   $element[ '#title' ]    ;
+        if ( !empty ( $element[ '#id' ] ) ) {
+            $output             .=  ' <label for="' . $element[ '#id' ] . '">'. $t ( '!title !required :',
+                                            array (
+                                                '!title'        =>  filter_xss_admin ( $title ),
+                                                '!required'     =>  $required
+                                            )
+                                        )  . "</label>"     ;
+        }
+        else {
+            $output             .=  ' <label>' . $t ('!title: !required',
+                                        array (
+                                            '!title' => filter_xss_admin ( $title ),
+                                            '!required' => $required )
+                                        )  . "</label>"                     ;
+            }
+    }
+
+    $output                     .=  " $value\n"         ;
+
+    if ( ! empty ( $element[ '#description' ] ) ) {
+        $output                 .=  ' <div class="description">' . $element['#description'] . "</div>\n"    ;
+    }
+
+    $output                     .=  "</div>"    ;
+
+    return $output  ;
+}
+
+
+
+
+////Modificando la paginación, quitando primera, última
+function tantacom_pager ( $tags = array ( ) , $limit = 10, $element = 0, $parameters = array ( ), $quantity = 9 ) {
+   global $pager_page_array, $pager_total;
+  $pager_middle = ceil($quantity / 2);
+  $pager_current = $pager_page_array[$element] + 1;
+  $pager_first = $pager_current - $pager_middle + 1;
+  $pager_last = $pager_current + $quantity - $pager_middle;
+  $pager_max = $pager_total[$element];
+
+  // Prepare for generation loop.
+  $i = $pager_first;
+  if ($pager_last > $pager_max) {
+    // Adjust "center" if at end of query.
+    $i = $i + ($pager_max - $pager_last);
+    $pager_last = $pager_max;
+  }
+  if ($i <= 0) {
+    // Adjust "center" if at start of query.
+    $pager_last = $pager_last + (1 - $i);
+    $i = 1;
+  }
+  // End of generation loop preparation.
+
+  //$li_first = theme('pager_first', (isset($tags[0]) ? $tags[0] : t('« first')), $limit, $element, $parameters);
+  $li_previous = theme('pager_previous', (isset($tags[1]) ? $tags[1] : t('_Anterior')), $limit, $element, 1, $parameters);
+  $li_next = theme('pager_next', (isset($tags[3]) ? $tags[3] : t('Siguiente_')), $limit, $element, 1, $parameters);
+  //$li_last = theme('pager_last', (isset($tags[4]) ? $tags[4] : t('last »')), $limit, $element, $parameters);
+
+
+  if ($pager_total[$element] > 1) {
+    
+    if ($li_previous) {
+      $items[] = array(
+        'class' => 'pager-previous', 
+        'data' => $li_previous,
+      );
+    }
+
+    // When there is more than one page, create the pager list.
+    if ($i != $pager_max) {
+      if ($i > 1) {
+        $items[] = array(
+          'class' => 'pager-ellipsis', 
+          'data' => '…',
+        );
+      }
+      // Now generate the actual pager piece.
+      for (; $i <= $pager_last && $i <= $pager_max; $i++) {
+        if ($i < $pager_current) {
+          $items[] = array(
+            'class' => 'pager-item', 
+            'data' => theme('pager_previous', $i, $limit, $element, ($pager_current - $i), $parameters),
+          );
+        }
+        if ($i == $pager_current) {
+          $items[] = array(
+            'class' => 'pager-current', 
+            'data' => $i,
+          );
+        }
+        if ($i > $pager_current) {
+          $items[] = array(
+            'class' => 'pager-item', 
+            'data' => theme('pager_next', $i, $limit, $element, ($i - $pager_current), $parameters),
+          );
+        }
+      }
+      if ($i < $pager_max) {
+        $items[] = array(
+          'class' => 'pager-ellipsis', 
+          'data' => '…',
+        );
+      }
+    }
+    // End generation.
+    if ($li_next) {
+      $items[] = array(
+        'class' => 'pager-next', 
+        'data' => $li_next,
+      );
+    }
+    
+    return theme('item_list', $items, NULL, 'ul', array());
+  }
+
+}
+
+function tantacom_item_list($items = array(), $title = NULL, $type = 'ul', $attributes = NULL) {
+  $output = '<div class="pagination">';
+  if (isset($title)) {
+    $output .= '<h3>' . $title . '</h3>';
+  }
+
+//var_dump($items);
+ foreach ($items as $item) {
+	if ($item['class']=='pager-previous'){
+		$feed = str_replace("active"  , "prev" , $item['data'] );
+		$output.=$feed;
+	}
+	if ($item['class']=='pager-next'){
+		$feed = str_replace("active"  , "next" , $item['data'] );
+		$output.=$feed;
+	}
+}
+
+
+
+  if (!empty($items)) {
+    $output .= "<$type" . drupal_attributes($attributes) . '>';
+    foreach ($items as $item) {
+	if (($item['class']!='pager-next')&&($item['class']!='pager-previous')){
+      $attributes = array();
+      $children = array();
+      	if (is_array($item)) {
+        	foreach ($item as $key => $value) {
+          		if ($key == 'data') {
+            		$data = $value;
+		          }
+        		elseif ($key == 'children') {
+		            $children = $value;
+        		  }
+		        else {
+					if($item['class']=='pager-current'){
+	           			 $attributes[$key] = 'sel';
+					}
+    		      }
+        		}
+      			}
+      	else {
+        	$data = $item;
+	      }
+      if (count($children) > 0) {
+        $data .= theme_item_list($children, NULL, $type,''); // Render nested list
+      }
+	  
+      $output .= '<li' . drupal_attributes($attributes) . '><span>' . $data . '</span></li>';
+    }
+	}
+    $output .= "</$type>";
+  }
+  $output .= '</div>';
+  return $output;
+}
+

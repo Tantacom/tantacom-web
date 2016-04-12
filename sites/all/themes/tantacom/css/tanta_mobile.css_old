@@ -1,0 +1,28 @@
+/*Hoja de estilos para dispositivos movile - Resetea/complementa con la generica*/
+#wrapper{width:100%;position:relative;}
+	aside{background:#1f91d0 url(../images/m_f_aside.png) repeat-x 0 100%;height:auto;position:static;width:100%;min-height:0;}
+		aside header{height:auto;margin:0;}
+		aside nav{position:static;z-index:0;}
+		aside footer{display:none;}
+	section{width:100%;margin:0;}
+/*Design*/
+aside{}
+	nav{background-image:none;padding:0;text-align:left;}
+		nav header{padding:6em 1em 0;}
+			nav header a:link{height:auto;width:auto;}
+			#logo{float:none;}
+		nav ul{padding-top:2em;margin:0 1em;}
+			nav li{display:inline-block;width:19%;text-align:center;vertical-align:top;margin:0;}
+				nav a:link,nav a:visited{font-size:1.8em;padding:.5em 0 1.5em;width:100%;height:1.238em;}
+				nav a.sel{background-color:#cdeffd;background-image:none;}	
+section{}
+	section header{border-bottom:1px solid #d3e9f6;}
+		.lang_social{float:none;position:absolute;top:0;background-color:#fff;z-index:2;}
+			.social{float:right;margin-right:1em;}
+		section header hgroup{padding:1em 1em 1.5em;}
+	section article{padding:0 1em;}
+	
+.colA{float:none;width:100% !important;}
+.colB{float:none;width:100% !important;}
+
+#home #modDrupalCamp img { width:auto; max-width:100%; }

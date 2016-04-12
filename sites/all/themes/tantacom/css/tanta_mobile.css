@@ -1,0 +1,187 @@
+/*Hoja de estilos para dispositivos movile - Resetea/complementa con la generica*/
+#wrapper{width:100%;position:relative;}
+	aside{background:#00b2f9;height:auto;position:static;width:100%;min-height:0;}
+		aside header{height:auto;margin:0; text-align:center;}
+		aside header img{margin-top:2em;}
+		aside nav{position:static;z-index:0;}
+		aside footer{display:none;}
+	section{width:100%;margin:0;}
+/*Design*/
+nav{background-image:none;padding:0;text-align:left;}
+	nav header{padding:5em 1em 0;}
+		nav header a:link{height:auto;width:auto;}
+		#logo{float:none;}
+	nav ul{padding-top:2em;margin:0 1em;}
+		nav li{display:inline-block;width:19%;text-align:center;vertical-align:top;margin:0;}
+			nav a:link,nav a:visited{font-size:1.7em;padding:.5em 0 1.5em;width:100%;height:1.238em;}
+			nav a.sel{background-color:#ffffff;background-image:none;}	
+section header{}
+	.lang_social{float:none;position:absolute;top:0;background-color:#fff;z-index:2;}
+		.social{float:right;margin-right:1em;}
+	section header hgroup{padding:1em 1em 1.5em;}
+section article{padding:0 1em;}
+
+	
+.colA{float:none;width:100% !important;}
+.colB{float:none;width:100% !important;}
+
+#home #modDrupalCamp img { width:auto; max-width:90%;}
+
+#home .colAB { width:86%; margin-left:0; padding:0 7% 4em;}
+
+.quienesSomos header .link:before, .quienesSomos header .link:after { content:""; display:table; }
+.quienesSomos header .link:after { clear:both; }
+
+@media (max-width: 1024px) {
+	.jcarousel-skin .jcarousel-item img, .archivoGrafico .slider img, #gallery-user { width:100%;}
+	.btn{margin:0;border:0;font-family:'tanta_bold', Arial, Helvetica, sans-serif;display:inline-block;padding:0.5em;text-decoration:none; color:#ffffff !important;background: #00b2f9; text-transform:lowercase;}
+.btn input {font-size:1em; cursor:pointer}
+a.btn{font-size: 1.5em;}
+}
+
+@media (max-width: 900px) {
+	.breadcrumb	{ display:none;}
+	section header h2 { font-size:1.4em; margin: 0em;}
+	ul.primary, ul.secondary { width:auto;}
+	.colAB.portadilla, .colAB.listClientes { width:auto; margin:2em 1em 0;}
+	.linked { display:none; margin:0 0 1em; padding:0 0 1em;}
+		.soluciones .linked p, .clientes .linked p { font-size:.8em;}
+	.soluciones .linked.both { display:block; }
+	
+	#maps .pagination { width:auto; margin:2em 1em;}
+	.slider.jcarousel-skin-tango .jcarousel-prev-horizontal { left:0;}
+	.slider.jcarousel-skin-tango .jcarousel-next-horizontal { right:0;}
+	
+	.blogs, .lateral { margin-top:2em;}
+	.blogs { width:59%;}
+		.blogs .blog { padding:0;}
+	.lateral { padding-right:1em;}
+		#modSus .form-text { width:90%;}
+
+	.contacto { width:auto; margin:2em 1em 0;}
+		.contacto .colA { float:left; width: 63% !important;}
+		.contacto .colB { float:right; width: 33% !important;}
+	
+	.clientes { margin:2em 0 0;}
+		.clientes h3 { margin:0 .3em .5em;}
+		.clientes .slider { display:block;}
+		.clientes .colA { float:left; width:49% !important; }
+		.clientes .colB { float:right; width:42% !important; }
+	.quienesSomos header { margin:0 0 2.1em}
+	
+#back-top { position: fixed; bottom: 30px; right:5px; }
+	#back-top a { display: block; width: 70px; -webkit-transition: 1s; -moz-transition: 1s; transition: 1s; text-transform: uppercase; text-align: center; text-decoration: none; font: 11px/100% 'Humanst521LtBTLight', Arial, Helvetica, sans-serif; color: #bbb; }
+	#back-top a:hover { color: #000; }
+	/* arrow icon (span tag) */
+	#back-top span { display: block; width:70px; height:70px; margin-bottom: 7px; background:rgba(221,221,221,0.3) url(../images/up-arrow.png) no-repeat 50% 50%; -webkit-border-radius: 15px; -moz-border-radius: 15px; border-radius: 15px; -webkit-transition: 1s; -moz-transition: 1s; transition: 1s; }
+	#back-top a:hover span { background-color: #777;}
+.btn{margin:0;border:0;font-family:'tanta_bold', Arial, Helvetica, sans-serif;display:inline-block;padding:0.5em;text-decoration:none; color:#ffffff !important;background: #00b2f9; text-transform:lowercase;}
+.btn input {font-size:1em; cursor:pointer}
+a.btn{font-size: 1.5em;}
+}
+
+@media (max-width: 800px) {
+	#home h1 { font-size:2.7em;}
+	#home .colAB { width:auto; padding:0 5% 4em;}
+	#home .colA { width:auto !important; margin-bottom:2em; padding:0;}
+		#home .colA header h3 { font-size:1.4em;}
+	#home .colB { float:none; width:auto !important;}
+		#home #modSus { margin:0 -3% 1.5em;}
+	#home .colAB .view-content p .Apple-style-span { font-family:'akkurat', Arial,Helvetica,sans-serif !important}
+	section header { margin:0;}
+	.jcarousel-skin .jcarousel-prev-horizontal { left:-1.4em;}
+	.jcarousel-skin .jcarousel-next-horizontal { right:-1.4em;}
+	.listClientes h3 { font-size:1.4em;}
+	
+	.fixedLinks { display:block; position:fixed; left:0; bottom:0; width:100%; height:3em; margin:0; padding:0; background:rgba(0,178,249,0.8);}
+		.fixedLinks li { float:left; width:33.3%; height:3em; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box;  list-style:none; }
+			.fixedLinks li a { display:block; height:3em; text-indent:-9999em; }
+			.fixedLinks li.email a { background:url("../images/ico_mail.png") no-repeat 50% 50%;}
+			.fixedLinks li.tel a { background:url("../images/ico_tel.png") no-repeat 50% 50%;}
+			.fixedLinks li.contact a { background:url("../images/ico_contact.png") no-repeat 50% 50%;}
+			.fixedLinks li.last { border-right:none;}
+}
+
+@media (max-width: 600px) {
+	#home h1 { font-size:2em;}
+	.colAB.quienesSomos article, .portadilla article { float:none; width:auto;}
+	.portadilla article { margin:0 0 2.5em;}
+	.soluciones article.special { float:none; width:auto; margin:0 0 2.5em;}
+	.soluciones article p, .soluciones article.special p { font-size:1.3em;}
+	.linked { margin:0 1em;}
+		.linked p { padding:0;}
+		.linked a { position:static;}
+	#main header hgroup h2, .slider, #maps .linked { display:none;}
+	
+	.listClientes article img.floatl { margin:0 1.5em 1.5em 0;}
+	
+	.blogs, .lateral { float:none; width:auto; margin:0 1em;}
+	.blogs { margin-top:2em; padding:0 0 3em;}
+		.blogs .blog { padding:0;}
+	.lateral { margin:0 1em 2em;}
+	
+	.contacto .colAB { width:auto;}
+		.contacto .colA, .contacto .colB { float:none; width:auto !important;}
+	
+	.clientes { width:auto;}
+		.clientes .colA, .clientes .colB { width:auto !important;}
+		.clientes .archivoGrafico { margin:-2em 0 3em 2em;}
+		.clientes article { padding:2em 0;}
+			.clientes .detalleC { padding-left:2em;}
+	
+}
+@media (max-width: 580px) {
+	.clientes .archivoGrafico { width:auto; }
+}
+
+@media (max-width: 490px) {
+	aside nav { padding-bottom:2em;}
+  		#nav { display:none;}
+  		.selectnav { display: block; width:75%; margin:1em auto 0; font-size:1.5em; padding:.2em 0 0 .5em; }
+		
+		.social .tlf { margin-right:2.5em !important;}
+		
+		.clientes .archivoGrafico { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; width:100%; }
+		.clientes .detalleC { padding:0 2em;}
+	.quienesSomos header .btn { margin-top:1em;}
+	.quienesSomos .list li { width:32%;}
+		.lang_social{display:none;}
+		aside header img {margin-top: 0;}
+
+	.archivoGrafico .slider { text-align:center;}
+		.archivoGrafico .slider img { width:auto;}
+			.social li.tlf { background:url(../images/f_footer_tlf.png) no-repeat 0 0;  float: left;   margin-top: 1.3em; padding-left: 2em; margin-left:.5em; margin-right: 1em;}
+	
+	section#main header { border-bottom:0 none;}
+		section#main header hgroup { padding: 1em 1em 0;}
+		section#main header h1 { margin-bottom:0;}
+		.colAB.portadilla, .colAB.listClientes { margin:.5em 1em 0;}
+	.linked { width:auto; border-bottom:0 none;}
+	
+}
+
+@media (max-width: 350px) {
+	.clientes .colAB { background:none;}
+	.clientes .colA { padding:2em 0 0 2em;}
+		.clientes .colA img, .clientes .colB img.floatr { display: block; float: none; width: 60%; margin: 0 auto 2em;}
+		.clientes .colB img.floatr { width:50%;}
+		.clientes .colA p { clear:both;}
+	.listClientes article p, .listClientes article h4 { clear:both;}
+	.quienesSomos .list li { width:49%;}
+	.quienesSomos article.wysiwyg img.floatl { width:42%; margin:0 1em 1em 0;}
+	.quienesSomos article.wysiwyg div { float:none; width:auto;}
+	
+	.archivoGrafico .slider { text-align:left;}
+		.archivoGrafico .slider img { width:100%;}
+		.social { float:right; margin-right:.5em; padding:0;}
+				.social li { float:left;margin-left:.1em;list-style-type:none;}
+					.social span { margin:.8em 0 0 0; font-size:1.1em; color:#717171;}
+					.social a { display:block; height:3.2em; width:2.4em; background-repeat:no-repeat; background-position:50% 10px; -webkit-transition:background-position 0.7s ease; -moz-transition:background-position 0.7s ease; transition:background-position 0.7s ease; text-indent:999px; overflow:hidden; }
+						.social a:hover { background-position:50% 5px;}
+						.social li.tlf { background:url(../images/f_footer_tlf.png) no-repeat 0 0; margin-top: 1.3em; padding-left: 1em; margin-left:.5em; margin-right: 1em !important; font-size: 1.3em;}
+						.social li.tlf a {width: auto; height:auto;}
+						.mail { background:url(../images/f_footer_mail.png) no-repeat 0 0;  clear: right; float: right;   margin-top: 1.3em; padding-left: 2em;}
+						.mail a {display:block; font-size:1.2em; color: #063a56;text-indent: 0; height: 1.3em;}
+						.social .tlf span {display:block; font-size:1.2em;  text-indent: 0px; margin: 0; color: #063a56; }
+
+}

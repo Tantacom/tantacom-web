@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<html lang="es-ES">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style type="text/css">
+		body{background-color:#000;font-size:62.5%;}
+		.btn{
+			display:inline-block;
+			background:url(l_btn.png) no-repeat 0 0;
+			padding-left:1em;
+			text-decoration:none;
+			cursor: pointer;
+		}
+		.btn span{
+			display:inline-block;
+			background:url(r_btn.png) no-repeat right 0;
+			padding-right:1em;
+			vertical-align:top;
+		}
+		.btn_lArrow span{
+			background:url(ar_btn.png) no-repeat right 0;
+			padding-right:2.9em;
+		}
+		.btn span span{
+			display:inline-block;
+			background:none;
+			background-color:#a67b08;
+			text-shadow: 1px 1px 0px #745708;
+			font-family:arial;
+			color:#fff;
+			font-size:1.2em;
+			font-weight:bold;
+			text-decoration:none;
+			padding:.25em 1.25em;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		.btn span input{
+			margin:0;
+			padding:0;
+			border:0;
+			display:inline-block;
+			background:none;
+			background-color:#a67b08;
+			text-shadow: 1px 1px 0px #745708;
+			font-family:arial;
+			color:#fff;
+			font-size:1.2em;
+			font-weight:bold;
+			text-decoration:none;
+			padding:0 1.083em 0; /*resetear a cero en IE7*/
+			height:1.75em;
+			cursor: pointer;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		.btn_blue{
+			background-image:url(l_btn_blue.png);
+		}
+		.btn_blue span{
+			background-image:url(r_btn_blue.png);
+		}
+		.btn_lArrow.btn_blue span{
+			background-image:url(ar_btn_blue.png);
+		}
+		.btn_blue span span,
+		.btn_blue span input{
+			background:#2091d0 none !important;
+			text-shadow: 1px 1px 0px #243d56;
+		}
+	</style>
+</head>
+<body>
+	<a href="#" class="btn"><span><span>Botón de prueba con el texto muy muy largo</span></span></a>
+	<br />
+	<br />
+	<div class="btn"><span><input type="submit" value="Botón de prueba con el texto muy muy largo" /></span></div>
+	<br />
+	<br />
+	<a href="#" class="btn btn_lArrow"><span><span>Botón de prueba</span></span></a>
+	<br />
+	<br />
+	<div class="btn btn_lArrow"><span><input type="submit" value="Botón de prueba" /></span></div>
+	<hr />	
+	<a href="#" class="btn btn_blue"><span><span>Botón de prueba con el texto muy muy largo</span></span></a>
+	<br />
+	<br />
+	<div class="btn btn_blue"><span><input type="submit" value="Botón de prueba" /></span></div>
+	<br />
+	<br />
+	<a href="#" class="btn btn_lArrow btn_blue"><span><span>Botón de prueba</span></span></a>
+	<br />
+	<br />
+	<div class="btn btn_lArrow btn_blue"><span><input type="submit" value="Botón de prueba" /></span></div>
+</body>
+</html>

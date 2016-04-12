@@ -1,0 +1,11 @@
+#content, #content #solutions, #content #formulario div form li, #footer div { height:1%}
+
+#content span.action { margin-top:-2px}
+
+#donativoForm fieldset legend, #apadrinaForm fieldset legend { margin-left:-7px}
+
+#donativoForm fieldset ul li fieldset#nac ul { float:left; margin:-30px 0 0 90px; padding:0; width:190px}
+#donativoForm fieldset ul li fieldset#nac ul li { width:58px; margin-right:5px}
+#donativoForm fieldset ul li fieldset#nac ul li.last { margin-right:0}
+	#donativoForm fieldset ul li fieldset#nac label {float:left; width:20px; margin-right:10px;}
+	#donativoForm fieldset ul li fieldset#nac input { float:left; width:20px; margin:0; padding:0}

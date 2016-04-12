@@ -1,0 +1,18 @@
+<?php
+// $Id: mobile.install
+
+/**
+ * Implementation of hook_install()
+ */
+function mobile_install() {
+  // Set the module weight so it can override other modules.
+   variable_set('redirect_url', 'http://m.tantacom.com/presentacion');
+}
+
+/**
+ * Implementation of hook_uninstall()
+ */
+function mobile_uninstall() {
+  // Remove variables which is defined in our module
+  variable_del('redirect_url');
+}

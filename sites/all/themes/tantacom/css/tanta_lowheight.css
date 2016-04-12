@@ -1,0 +1,5 @@
+/*Hoja de estilos para dispositivos movile - Resetea/complementa con la generica*/
+nav ul{padding-top:1em;}
+footer li{margin-bottom:1em;padding-top:1em;} 
+aside footer {display:none;}
+section.slider{display: none;}

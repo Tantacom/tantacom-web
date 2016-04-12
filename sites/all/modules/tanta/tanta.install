@@ -1,0 +1,37 @@
+<?php
+// $Id: monitorcampanyas.install
+
+function tanta_uninstall() {
+  variable_del      (   'drupal_badge_color'            )   ;
+  variable_del      (   'drupal_badge_size'             )   ;/*
+  variable_del      (   'site_empresa'                  )   ;
+  variable_del      (   'site_cif'                      )   ;
+  variable_del      (   'site_registro'                 )   ;
+  variable_del      (   'site_telefono'                 )   ;
+  variable_del      (   'site_cod_pais'                 )   ;
+  variable_del      (   'site_web'                      )   ;
+  variable_del      (   'site_direccion'                )   ;
+  variable_del      (   'site_numero'                   )   ;
+  variable_del      (   'site_tipoVia'                  )   ;
+  variable_del      (   'site_abreVia'                  )   ;
+  variable_del      (   'site_numero'                   )   ;
+  variable_del      (   'site_planta'                   )   ;
+  variable_del      (   'site_puerta'                   )   ;
+  variable_del      (   'site_cp'                       )   ;
+  variable_del      (   'site_provincia'                )   ;
+  variable_del      (   'site_pais'                     )   ;
+  variable_del      (   'site_grupo'                    )   ;
+  variable_del      (   'site_web_onetec'               )   ;
+  variable_del      (   'site_fax'                      )   ;
+  variable_del      (   'site_email'                    )   ;
+  variable_del      (   'site_blog'                     )   ;
+  variable_del      (   'site_twitter'                  )   ;
+  variable_del      (   'site_linkedin'                 )   ;
+  variable_del      (   'site_rss'                      )   ;*/
+
+
+  cache_clear_all   (   '*', 'cache', TRUE              )   ;
+  cache_clear_all   (   '*', 'cache_filter', TRUE       )   ;
+  cache_clear_all   (   '*', 'cache_menu', TRUE         )   ;
+  cache_clear_all   (   '*', 'cache_page', TRUE         )   ;
+}

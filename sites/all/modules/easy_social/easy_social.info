@@ -1,0 +1,11 @@
+name = Easy Social
+description = "Simple module that add most common share buttons to nodes"
+
+; Core version
+core = 6.x
+; Information added by drupal.org packaging script on 2011-11-20
+version = "6.x-1.4"
+core = "6.x"
+project = "easy_social"
+datestamp = "1321798839"
+

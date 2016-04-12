@@ -1,0 +1,4 @@
+; $Id$
+name = Mobile Redirect
+description = Para redirigir a la presentación los móviles.
+core = 6.x

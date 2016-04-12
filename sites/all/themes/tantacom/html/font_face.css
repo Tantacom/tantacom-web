@@ -1,0 +1,10 @@
+@font-face {
+    font-family: 'Humanst521LtBTLight';
+    src: url('fonts/hum521l-webfont.eot');
+    src: url('fonts/hum521l-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/hum521l-webfont.woff') format('woff'),
+         url('fonts/hum521l-webfont.ttf') format('truetype'),
+         url('fonts/hum521l-webfont.svg#Humanst521LtBTLight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}

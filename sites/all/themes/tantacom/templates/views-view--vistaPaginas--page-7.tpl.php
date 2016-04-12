@@ -1,0 +1,64 @@
+ <?php $valores = $view->style_plugin->rendered_fields; ?>
+  <?php $attributes = array ( 'html' => TRUE ) ; ?>
+                
+   <?php/*             
+  <section id="sliderDots" class="jcarousel-skin">
+  <div class="jcarousel-control">
+	<?php
+	$filas = count ( $valores ) ;
+	for ( $i = 1; $i <= $filas; ++$i ) : ?>
+		 <?php echo l ( '<span>' . $i . '</span>', '#', $attributes ) ?>
+	<?php endfor ?>
+</div>
+
+ 	<ul>
+		<?php foreach ( $valores as $imagen ) : ?>		
+		<?php $i =  $key + 1 ; ?>
+		<li>
+			<span><?php echo ( $i ) ?></span>
+			<?php
+				$url = $imagen[ 'field_url_value' ] ;
+				if( ! strpos ( $url , '.' ) ) :
+					$url = substr ( $imagen[ 'field_url_value' ] , 1 ) ;
+				endif ;
+                     $nodo = node_load($imagen['nid']) ;
+					                    $attributesimg=array();
+                                        $path= $nodo->field_imghome[0]['filepath'];
+                                        $alt=t('ir al detalle de ').$nodo->title;
+                                        $title=t('ir al detalle de ').$nodo->title;
+                                        print '<a href="'.$url.'">'.theme('image',  $path, $alt, $title, $attributesimg,0).'</a>';
+                    ?>
+				<h2><?php echo l ( $imagen[ 'title' ], $url ) ?></h2>
+			
+			
+		</li>
+		<?php endforeach ; ?>
+	</ul>
+</section>
+*/?>
+
+<section class="slider">
+        <div class="flexslider">
+			<ul class="slides">
+				<?php foreach ( $valores as $imagen ) : ?>		
+				<?php $i =  $key + 1 ; ?>
+					<li>
+						<span><?php echo ( $i ) ?></span>
+						<?php
+							$url = $imagen[ 'field_url_value' ] ;
+							if( ! strpos ( $url , '.' ) ) :
+								$url = substr ( $imagen[ 'field_url_value' ] , 1 ) ;
+							endif ;
+								 $nodo = node_load($imagen['nid']) ;
+													$attributesimg=array();
+													$path= $nodo->field_imghome[0]['filepath'];
+													$alt=t('ir al detalle de ').$nodo->title;
+													$title=t('ir al detalle de ').$nodo->title;
+													print '<a href="'.$url.'">'.theme('image',  $path, $alt, $title, $attributesimg,0).'</a>';
+								?>
+						<h2><?php echo l ( $imagen[ 'title' ], $url ) ?></h2>
+					</li>
+				<?php endforeach ; ?>
+			</ul>
+		</div>
+</section>
