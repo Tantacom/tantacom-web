@@ -152,7 +152,6 @@ function tanta_m_secundario ( ) {
 //links sociales
 function tanta_m_ssocial ( ) {
 	return '<div class="lang_social">
-						<!--<a href="#" class="lang" lang="en">EN</a>-->
 						<ul class="social">
 							<li class="tlf">+34 91 440 10 40</li>
 							<li><span>Síguenos:</span></li>
@@ -166,8 +165,6 @@ function tanta_m_ssocial ( ) {
 								l ( 'rss' , variable_get ( 'site_rss', '' ), array( 'attributes' => array( 'target' => '_blank' ) ) )
 							. '</li>
 							<li class="googleplus"><a target="_blank" href="https://plus.google.com/109652246922447542410/posts">Google+</a></li>
-							<li class="slideshare"><a target="_blank" href="http://es.slideshare.net/tantacom">slideshare</a></li>
-							<!--<li class="mail"><a class="mailto" href="mailto:tanta@tantacom.com">tanta@tantacom.com</a></li>-->
 						</ul>
 					</div>' ;
 }
