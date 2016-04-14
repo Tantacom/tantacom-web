@@ -744,7 +744,7 @@ function tanta_newsletter_block_form_validate ( $form, &$form_state ) {
 function tanta_newsletter_block_form_submit ( $form, &$form_state ) 
 {
   global $user ;
-    if ( tanta_newsletter_block_form_validate ( $form, &$form_state ) ) 
+    if ( tanta_newsletter_block_form_validate ( $form, $form_state ) ) 
 	{
         $confirm = TRUE;
         $form_state['redirect'] = 'nuestra-newsletter' ;
@@ -753,7 +753,7 @@ function tanta_newsletter_block_form_submit ( $form, &$form_state )
 		{
 
 			case 'unsubscribe' :
-				campaignmonitor_general_form_submit ( $form, &$form_state ) ;
+				campaignmonitor_general_form_submit ( $form, $form_state ) ;
 			break   ;
 
 			case 'modificar' :
