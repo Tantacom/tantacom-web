@@ -106,6 +106,8 @@ DirectoryIndex index.php
   # uncomment the following line:
   # RewriteBase /
 
+  RewriteRule ^/el-blog-de-tanta http://blog.tantacom.com/ [R=301,L]
+
   # Rewrite URLs of the form 'x' to the form 'index.php?q=x'.
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
