@@ -1,0 +1,10 @@
+name: Tanta
+type: theme
+description: Custom theme for tantacom website.
+core: 8.x
+base theme: classy
+libraries:
+  - tanta/global-styling
+regions:
+  left: Izquierda
+  content: Contenido

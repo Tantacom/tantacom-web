@@ -1,0 +1,5 @@
+name: Tanta Web
+description: Módulo para construir la web de tanta.
+core: 8.x
+package: Tanta
+type: module
