@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * Implements hook_theme().
+ */
+function tantaweb_theme($existing, $type, $theme, $path) {
+  return array(
+    'tantaweb_logo' => array(
+      'variables' => array(
+        'link' => null
+      ),
+      'template' => 'block--logo'
+    )
+  );
+}

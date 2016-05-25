@@ -1,0 +1,82 @@
+@font-face {
+    font-family: 'Humanst521LtBTLight';
+    src: url('../fonts/hum521l-webfont.eot');
+    src: url('../fonts/hum521l-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/hum521l-webfont.svg#Humanst521LtBTLight') format('svg'),
+         url('../fonts/hum521l-webfont.woff') format('woff'),
+         url('../fonts/hum521l-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    @font-face {
+        font-family: 'Humanst521LtBTLight';
+            src: url('../fonts/hum521l-webfont.svg#Humanst521LtBTLight') format('svg'),
+    }
+}
+
+@font-face {
+    font-family: 'akkurat_light';
+    src: url('../fonts/akkurat_light-webfont.eot');
+    src: url('../fonts/akkurat_light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/akkurat_light-webfont.svg#akkurat_light') format('svg'),
+         url('../fonts/akkurat_light-webfont.woff') format('woff'),
+         url('../fonts/akkurat_light-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    @font-face {
+        font-family: 'akkurat_light';
+            src: url('../fonts/akkurat_light-webfont.svg#akkurat_light') format('svg'),
+    }
+}
+
+@font-face {
+    font-family: 'akkurat_bold';
+    src: url('../fonts/akkurat_bold-webfont.eot');
+    src: url('../fonts/akkurat_bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/akkurat_bold-webfont.svg#akkurat_bold') format('svg'),
+         url('../fonts/akkurat_bold-webfont.woff') format('woff'),
+         url('../fonts/akkurat_bold-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    @font-face {
+        font-family: 'akkurat_bold';
+            src: url('../fonts/akkurat_bold-webfont.svg#akkurat_bold') format('svg'),
+    }
+}
+@font-face {
+    font-family: 'akkurat';
+    src: url('../fonts/akkurat-webfont.eot');
+    src: url('../fonts/akkurat-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/akkurat-webfont.svg#akkurat') format('svg'),
+         url('../fonts/akkurat-webfont.woff') format('woff'),
+         url('../fonts/akkurat-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    @font-face {
+        font-family: 'akkurat';
+            src: url('../fonts/akkurat-webfont.svg#akkurat') format('svg'),
+    }
+}
+@font-face {
+    font-family: 'tanta_bold';
+    src: url('../fonts/tanta_bold-webfont.eot');
+    src: url('../fonts/tanta_bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/tanta_bold-webfont.svg#tanta_bold') format('svg'),
+         url('../fonts/tanta_bold-webfont.woff') format('woff'),
+         url('../fonts/tanta_bold-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    @font-face {
+        font-family: 'tanta_bold';
+            src: url('../fonts/tanta_bold-webfont.svg#tanta_bold') format('svg'),
+    }
+}
