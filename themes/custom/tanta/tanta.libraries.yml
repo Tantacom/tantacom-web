@@ -12,3 +12,5 @@ global-styling:
       css/print.css: { media: print }
       css/tanta.css: { media: screen }
       css/flexslider.css: { media: screen }
+      css/tanta_lowheight.css: { media: (max-height: 690px)}
+      css/tanta_mobile.css: { media: (max-width: 960px)}

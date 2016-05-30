@@ -10,6 +10,9 @@ function tantaweb_theme($existing, $type, $theme, $path) {
         'link' => null
       ),
       'template' => 'block--logo'
+    ),
+    'tantaweb_address' => array(
+      'template' => 'block--address'
     )
   );
 }
