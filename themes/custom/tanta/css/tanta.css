@@ -81,9 +81,10 @@ aside header {
     text-align: right;
 }
 
-aside nav {
+aside nav#block-enlacesprimarios {
     position: relative;
     z-index: 2;
+    padding-bottom: 1em
 }
 
 aside footer {
@@ -169,9 +170,10 @@ nav ul {
     padding-top: 4em;
 }
 
-nav li {
+nav li, nav#block-enlacesprimarios li.menu-item {
     list-style: none;
     margin: .8em 0;
+    padding-top: 0.2em;
 }
 
 /*	nav a:link,nav a:visited { display:inline-block; padding:0 2.3809em 0 .952em; height:1.238em; font-family:'akkurat', Arial, Helvetica, sans-serif; font-size:2.1em; color:#fff; text-shadow: 1px 1px 0px #105e88; line-height:.952em;}*/
@@ -185,9 +187,21 @@ nav#block-enlacesprimarios a:link, nav#block-enlacesprimarios a:visited {
     line-height: .952em;
 }
 
+nav#block-enlacesprimarios .contextual-links a:link, nav#block-enlacesprimarios .contextual-links  a:visited {
+    color:#333;
+    height: auto;
+    margin: 0.25em 0;
+    padding: 0.4em 0.6em;
+    font-size: 13px;
+}
+
 nav#block-enlacesprimarios a:hover {
     color: #00b2f9;
     background: #ffffff;
+}
+
+nav#block-enlacesprimarios ul.menu {
+    text-align: right;
 }
 
 /*nav a.sel { color:#00b2f9; background:#cdeffd url(../images/f_nav_sel.png) no-repeat 0 0; text-shadow: 1px 1px 0px #7dc2e7}*/
@@ -2076,4 +2090,8 @@ section.error404 a:hover {
 
 .galleria-play {
     left: 0px;
+}
+
+footer li {
+    font-family: "akkurat_bold"
 }
