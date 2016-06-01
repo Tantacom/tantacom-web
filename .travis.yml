@@ -11,8 +11,6 @@ language: php
 sudo: false
 
 php:
-  - 5.3
-  - 5.4
   - 5.5
   - 5.6
   - 7
@@ -31,7 +29,7 @@ env:
 
     # Configuration variables.
     - DRUPAL_TI_MODULE_NAME="tantaweb"
-    - DRUPAL_TI_SIMPLETEST_GROUP="tantaweb"
+    - DRUPAL_TI_SIMPLETEST_GROUP="false"
 
     # Define runners and environment vars to include before and after the
     # main runners / environment vars.
