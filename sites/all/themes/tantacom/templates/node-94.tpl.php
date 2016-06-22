@@ -1,7 +1,4 @@
 <?php //page de Contáctanos  o contacto ?>
-<?php 
-$cadena = strpos($_SESSION['messages']["status"][0],"Gracias, su envío ha sido recibido.");
-?>
 <section class="contacto" id="main">
     <p>Los campos marcados con asterisco (*) son obligatorios.</p>
     <section class="colAB">
@@ -17,7 +14,28 @@ $cadena = strpos($_SESSION['messages']["status"][0],"Gracias, su envío ha sido 
     )) );
   } ?>
 		<?php echo $messages ?>
-		<?php if( count($_SESSION['messages']['error'])>0){?>
+    
+    <?php if (!empty($_SESSION['messages']['status'][0])) : ?>
+			<div class="messages status" style="width:466px;">
+        <!-- Hemos recibido tu solicitud de información, en breve contactaremos contigo.<br/>Si deseas hacernos otra pregunta rellena el formulario de nuevo o llámanos al 91 440 10 40. Muchas gracias.-->
+        <?php foreach ($_SESSION['messages']['status'] as $message) : ?>
+          <?php print $message; ?>
+        <?php endforeach; ?>
+        <script>
+        /*jQuery(document).ready(function($) {
+          _gaq.push(['_trackPageview', '/contacto/ok']);
+        });*/
+        var _gaqExist = setInterval(function() {
+            if (typeof _gaq !== 'undefined') {
+              _gaq.push(['_trackPageview', '/contacto/ok']);
+              clearInterval(_gaqExist);
+            }
+        }, 100);
+        </script>
+      </div>
+		<?php endif; ?>
+    
+		<?php if(!empty($_SESSION['messages']['error'][0]) && count($_SESSION['messages']['error'])>0){?>
 			<div class="msgError" tabindex="-1">
 				<span>El alta no ha podido realizarse por estos motivos:</span>
 					<ul>
@@ -27,16 +45,9 @@ $cadena = strpos($_SESSION['messages']["status"][0],"Gracias, su envío ha sido 
 				</ul>
 			</div>
 	<?php } ?>
-
-
-		<?php if ($cadena > 0) { ?>
-			<div class="messages status" style="width:466px;">Hemos recibido tu solicitud de información, en breve contactaremos contigo.<br/>Si deseas hacernos otra pregunta rellena el formulario de nuevo o llámanos al 91 440 10 40. Muchas gracias.
-<script>
-_gaq.push(['_trackPageview', '/contacto/ok']);
-</script>
-</div>
-		<? } ?>	
-			<?php print $node->content['webform']['#value']; ?>
+    
+		<?php print $node->content['webform']['#value']; ?>
+    
 		</div>
        <div class="colB">
             <h4>Quiero trabajar en Tanta</h4>
